@@ -26,13 +26,13 @@ const Lang = ({ children: key }) => {
 const LangProvider = ({ children, defaultLanguage, defaultTranslation }) => {
   const [language, setLanguage] = useState(defaultLanguage)
   const [translation, setTranslation] = useState(defaultTranslation)
-  const { current: value } = useMemo(
-    {
+  const value = useMemo(
+    () => ({
       language,
       setLanguage,
       translation,
       setTranslation
-    },
+    }),
     [language, setLanguage, translation, setTranslation]
   )
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>
