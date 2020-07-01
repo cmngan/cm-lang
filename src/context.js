@@ -8,6 +8,11 @@ import React, {
 
 const LangContext = createContext()
 
+const getValue = (obj, path) =>
+  path.reduce((a, c) => {
+    return a[c]
+  }, obj)
+
 const useLanguage = () => {
   const { language, setLanguage } = useContext(LangContext)
   return [language, setLanguage]
@@ -20,7 +25,11 @@ const useTranslation = () => {
 
 const Lang = ({ children: key }) => {
   const { translation, language } = useContext(LangContext)
-  return <Fragment>{translation[language]?.[key] || key}</Fragment>
+  return (
+    <Fragment>
+      {getValue(translation[language], key.split('.')) || key}
+    </Fragment>
+  )
 }
 
 const LangProvider = ({ children, defaultLanguage, defaultTranslation }) => {
