@@ -23,13 +23,14 @@ const useTranslation = () => {
   return [translation, setTranslation]
 }
 
-const Lang = ({ children: key }) => {
+const useLang = () => {
   const { translation, language } = useContext(LangContext)
-  return (
-    <Fragment>
-      {getValue(translation[language], key.split('.')) || key}
-    </Fragment>
-  )
+  return translation[language]
+}
+
+const Lang = ({ children: key }) => {
+  const lang = useLang()
+  return <Fragment>{getValue(lang, key.split('.')) || key}</Fragment>
 }
 
 const LangProvider = ({ children, defaultLanguage, defaultTranslation }) => {
@@ -47,4 +48,4 @@ const LangProvider = ({ children, defaultLanguage, defaultTranslation }) => {
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>
 }
 
-export { LangProvider, LangContext, useLanguage, useTranslation, Lang }
+export { LangProvider, LangContext, useLanguage, useTranslation, useLang, Lang }
